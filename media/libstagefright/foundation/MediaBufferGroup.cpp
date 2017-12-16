@@ -125,6 +125,15 @@ void MediaBufferGroup::add_buffer(MediaBuffer *buffer) {
     buffer->setObserver(this);
     mBuffers.emplace_back(buffer);
 }
+extern "C" status_t _ZN7android16MediaBufferGroup14acquire_bufferEPPNS_11MediaBufferE(
+                    MediaBufferGroup* group, MediaBuffer **out) {
+    return group->acquire_buffer(out, false, 0);
+}
+        
+extern "C" status_t _ZN7android16MediaBufferGroup14acquire_bufferEPPNS_11MediaBufferEb(
+                    MediaBufferGroup* group, MediaBuffer **out, bool nonBlocking) {
+    return group->acquire_buffer(out, nonBlocking, 0);
+}
 
 bool MediaBufferGroup::has_buffers() {
     if (mBuffers.size() < mGrowthLimit) {
